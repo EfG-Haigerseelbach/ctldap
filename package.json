@@ -7,15 +7,48 @@
   "dependencies": {
     "bcrypt": "^4.0.1",
     "bluebird": "^3.5.0",
+    "config": "^3.3.6",
     "extend": "^3.0.1",
     "ini": "^1.1.0",
     "ldap-escape": "^1.1.5",
     "ldapjs": "^1.0.2",
     "request": "^2.81.0",
-    "request-promise": "^4.2.1"
+    "request-promise": "^4.2.1",
+    "winston": "^3.3.3"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "body-parser": "^1.19.0",
+    "chalk": "^4.1.2",
+    "cookie-parser": "^1.4.5",
+    "coveralls": "^3.1.1",
+    "express-handlebars": "^5.3.3",
+    "handlebars": "^4.7.7",
+    "mocha": "^9.1.0",
+    "nyc": "^15.1.0"
+  },
   "scripts": {
-    "start": "node ctldap.js"
+    "start": "node ctldap.js",
+    "test": "mocha './test/**/*.test.js' --exit",
+    "coverage": "nyc --reporter=lcov --reporter=text npm run test"
+  },
+  "nyceee": {
+    "reporter": [
+      "text-summary",
+      "lcov"
+    ],
+    "temp-directory": "./coverage/.nyc_output",
+    "all": true,
+    "exclude": "typings",
+    "extension": [
+      ".js"
+    ],
+    "sourceMap": true,
+    "instrument": true,
+    "include": [
+      "src/**/*.js",
+      "!**/test/**/*",
+      "!**/test.*",
+      "test/**/*"
+    ]
   }
 }
