@@ -47,7 +47,7 @@ describe('LDAP client', function () {
         mockServer.setErrorDuringFetchOfCsrfToken(false);
         mockServer.reset();
         client1 = ldap.createClient({ url: 'ldap://127.0.0.1:1389' });
-        client1.bind("cn=root,ou=users,o=churchtools", "XXXXXXXXXXXXXXXXXXXX", err => {
+        client1.bind(`cn=${config.ldap.ldap_user},ou=users,o=churchtools`, config.ldap.ldap_password, err => {
             if (err) { 
                 done(err);
             }
@@ -55,12 +55,12 @@ describe('LDAP client', function () {
             client1.destroy();            
         });
     });
-    it('should be able to xxx', function (done) {
+    it('should be able to search for a user using a filter fot the e-mail address', function (done) {
         server.init(config);
         mockServer.setErrorDuringFetchOfCsrfToken(false);
         mockServer.reset();
         client2 = ldap.createClient({ url: 'ldap://127.0.0.1:1389' });
-        client2.bind("cn=root,ou=users,o=churchtools", "XXXXXXXXXXXXXXXXXXXX", err => {
+        client2.bind(`cn=${config.ldap.ldap_user},ou=users,o=churchtools`, config.ldap.ldap_password, err => {
             if (err) { 
                 console.log('################ some error occurred');
                 done(err);
@@ -95,13 +95,53 @@ describe('LDAP client', function () {
             });           
         });
     });
+    it('should be able to search for a group', function (done) {
+        server.init(config);
+        mockServer.setErrorDuringFetchOfCsrfToken(false);
+        mockServer.reset();
+        client2 = ldap.createClient({ url: 'ldap://127.0.0.1:1389' });
+        client2.bind(`cn=${config.ldap.ldap_user},ou=users,o=churchtools`, config.ldap.ldap_password, err => {
+            if (err) { 
+                console.log('################ some error occurred');
+                done(err);
+            }
+            
+            const opts = {
+                filter: '(email=johannes.gilbert@posteo.de)',
+                scope: 'sub',
+                attributes: ['dn', 'sn', 'cn']
+              };
+              
+            client2.search('ou=groups,o=churchtools', (err, res) => {
+                assert.ifError(err);
+                
+                res.on('searchRequest', (searchRequest) => {
+                    console.log('searchRequest: ', searchRequest.messageID);
+                });
+                res.on('searchEntry', (entry) => {
+                    console.log('entry: ' + JSON.stringify(entry.object));
+                });
+                res.on('searchReference', (referral) => {
+                    console.log('referral: ' + referral.uris.join());
+                });
+                res.on('error', (err) => {
+                    console.error('error: ' + err.message);
+                });
+                res.on('end', (result) => {
+                    console.log('status1: ' + result.status);
+                    client2.destroy();
+                    done();
+                });
+            });           
+        });
+    });
     it('should be able to handle if no CSRF-token is provided', function (done) {
         console.log('it should be able to handle if no CSRF-token is provided');
         server.init(config);
         mockServer.setErrorDuringFetchOfCsrfToken(true);
         mockServer.reset();
         var client = ldap.createClient({ url: 'ldap://127.0.0.1:1389' });
-        client.bind("cn=root,ou=users,o=churchtools", "XXXXXXXXXXXXXXXXXXXX", err => {
+        client.bind(`cn=${config.ldap.ldap_user},ou=users,o=churchtools`, config.ldap.ldap_password, err => {
             if (err) { 
                 done(err);
             }
@@ -141,7 +181,7 @@ describe('LDAP client', function () {
         mockServer.setErrorDuringFetchOfCsrfToken(true);
         mockServer.reset();
         var client = ldap.createClient({ url: 'ldap://127.0.0.1:1389' });
-        client.bind("cn=root,ou=users,o=churchtools", "XXXXXXXXXXXXXXXXXXXX", err => {
+        client.bind(`cn=${config.ldap.ldap_user},ou=users,o=churchtools`, config.ldap.ldap_password, err => {
             if (err) { 
                 done(err);
             }
