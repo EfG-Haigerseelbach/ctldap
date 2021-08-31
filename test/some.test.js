@@ -8,11 +8,16 @@ var assert = require('assert');
 const { doesNotMatch } = require('assert');
 const { errorMonitor } = require('events');
 
+var chai = require('chai');  
+var expect = chai.expect;    // Using Expect style
+
 var config = require('config');
 
 var Server = require('../ctldap.js');
 var MockServer = require('./mock-server/mock-server.js');
 //const { logger } = require('handlebars');
+
+const chalk = require('chalk');
 
 
 
@@ -131,7 +136,6 @@ describe('LDAP client', function () {
         });
     });
     it('should be able to handle a non-number cache lifetime in the configuration', function (done) {
-
         config.churchtools.cache_lifetime = 'Some string';
         server.init(config);
         mockServer.setErrorDuringFetchOfCsrfToken(true);
@@ -183,24 +187,27 @@ describe('LDAP client', function () {
             });           
         });
     });
-    /*it('should NOT be able to bind with an in correct cn, correct ou, o and password', function (done) {
+    it('should NOT be able to bind with an in correct cn, correct ou, o and password', function (done) {
+        
+        server.init(config);
+        mockServer.setErrorDuringFetchOfCsrfToken(false);
+        mockServer.reset();
         var client = ldap.createClient({ url: 'ldap://127.0.0.1:1389' });
-        client.bind("cn=rooot,ou=users,o=churchtools", "XXXXXXXXXXXXXXXXXXXX", err => {
+        client.bind("cn=dummy,ou=users,o=churchtools", "mustNotWork", err => {
             //console.log(err);
+            expect(err).to.be.not.undefined;
+            expect(err).to.have.a.property('lde_message').which.equals('InvalidCredentialsError');
             if (err) {
                 done();
-                //assert.ifError(err);
             } else {
                 done(new Error('An InvalidCredentialsError should occur when trying to bind with an incorrect cn'));
             }
             client.unbind(err => {
                 assert.ifError(err);
                 client.destroy();
-                
             });
-            
         });
-    });*/
+    });
     after(function () {
         server.end();
     });

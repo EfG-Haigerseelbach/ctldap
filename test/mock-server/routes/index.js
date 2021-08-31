@@ -35,6 +35,13 @@ router.post('*', function (req, res, next) {
     console.log(chalk.blue(`[Mock-Server] client tries to login using email '${req.body.email}' and password '${req.body.password}'`));
     res.send({ status: 'success' });
     config.loggedIn = true;
+  } else if(req.body.func == 'authenticate') {
+    if(req.body.user == 'dummy' && req.body.password == 'mustNotWork') {
+      res.send({ status: 'error' });
+    } else {
+      console.log(chalk.red('[MockServer] implementation missing!'));
+      throw new Error('[MockServer] implementation missing!');
+    }
   } else if (req.body.func == 'getUsersData') {
     console.log(chalk.blue('[Mock-Server] client tries to get user data'));
     if (config.loggedIn == false) {
@@ -65,7 +72,8 @@ router.post('*', function (req, res, next) {
       res.send(data);
     }
   } else {
-    console.log(chalk.blue(JSON.stringify(req.body)));
+    console.log(chalk.red('[MockServer] most likely a handler is missing!'));
+    console.log(chalk.red(JSON.stringify(req.body)));
     res.send();
   }
 });

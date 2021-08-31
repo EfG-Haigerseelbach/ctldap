@@ -5,7 +5,7 @@
   "version": "2.1.0",
   "private": true,
   "dependencies": {
-    "bcrypt": "^4.0.1",
+    "bcrypt": "^5.0.1",
     "bluebird": "^3.5.0",
     "config": "^3.3.6",
     "extend": "^3.0.1",
@@ -18,6 +18,7 @@
   },
   "devDependencies": {
     "body-parser": "^1.19.0",
+    "chai": "^4.3.4",
     "chalk": "^4.1.2",
     "cookie-parser": "^1.4.5",
     "coveralls": "^3.1.1",
@@ -28,7 +29,7 @@
   },
   "scripts": {
     "start": "node ctldap.js",
-    "test": "mocha './test/**/*.test.js' --exit",
+    "test": "mocha './test/**/*.test.js' -r chai/register-expect --exit",
     "coverage": "nyc --reporter=lcov --reporter=text npm run test"
   },
   "nyceee": {
