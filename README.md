@@ -1,4 +1,8 @@
-# LDAP Wrapper for ChurchTools v2.2.2
+# LDAP Wrapper for ChurchTools
+
+ctldap serves as LDAP server for [ChurchTools](https://church.tools) with the purpose to enable ordinary ChurchTools-users to access other services which offer an LDAP-integration (e.g. nextcloud) with the same username and password. Therefore, an LDAP server in form of [ldapjs](http://ldapjs.org/) is used. The relevant LDAP operations are forwarded to a ChurchTools installation using its [API](https://api.church.tools/). User and group data is only cached in ctldap (transient).
+
+![](docs/_media/block_diagram.svg)
 
 This software acts as an LDAP server for ChurchTools >= 3.25.0
 
@@ -46,3 +50,8 @@ For this configuration, the
 - password for initial binding is `0a1b2c3d4e5f6g7h8i9j`
 - users are found in the organizational unit `ou=users,o=churchtools`
 - groups are found in the organizational unit `ou=groups,o=churchtools`
+
+# Testing
+
+1. Run `npm install`.
+2. Run `npm run coverage`.
