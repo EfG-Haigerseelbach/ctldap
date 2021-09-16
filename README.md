@@ -1,3 +1,4 @@
+[![Node.js CI](https://github.com/EfG-Haigerseelbach/ctldap/actions/workflows/node.js.yml/badge.svg)](https://github.com/EfG-Haigerseelbach/ctldap/actions/workflows/node.js.yml)
 [![Coverage Status](https://coveralls.io/repos/github/EfG-Haigerseelbach/ctldap/badge.svg?branch=develop)](https://coveralls.io/github/EfG-Haigerseelbach/ctldap?branch=develop)
 
 # LDAP Wrapper for ChurchTools
