@@ -7,9 +7,40 @@ ctldap serves as LDAP server for [ChurchTools](https://church.tools) with the pu
 
 ![](docs/_media/block_diagram.svg)
 
-This software acts as an LDAP server for ChurchTools >= 3.25.0
+# Configuration
+Unlike the [original version of ctldap](https://github.com/milux/ctldap) the fork uses a [JSON-based configration file](https://github.com/EfG-Haigerseelbach/ctldap/blob/develop/config/test.json) as well as module [node-config](https://github.com/lorenwest/node-config). In this configuration approach there are the following options:
 
-**This software was tested in a common environment, yet no warranties of any kind!** 
+## LDAP
+
+The LDAP server offers the following options:
+
+| Parameter                    | Data Type | Example       | Explanation                                                                                                                                                                                                                                     |
+|------------------------------|-----------|---------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `ldap_user`                  | string    | `root`        | LDAP admin user, can be a "virtual" root user or a ChurchTools user name (virtual root is recommended!)                                                                                                                                         |
+| `ldap_password`              | string    | `secret`      | The static password to be used for the ldap_user if it is NOT a CT account, or the account password of the  chosen user otherwise. If you did not use install.sh, choose a LONG SECURE RANDOM password from a password generator like KeePass!  |
+| TBD: `ldap_password_bycrypt` | boolean   | `true`        | If set to true, treat ldap_password as a bcrypt hash and compare against it                                                                                                                                                                     |
+| `ldap_ip`                    | string    | `127.0.0.1`   | LDAP server ip to listen on, change it to 0.0.0.0 when external access required. When you use the iptables_port setting, the port forwarding is stil installed on the eth0 card                                                                 |
+| `ldap_port`                  | string    | `1389`        | LDAP server port                                                                                                                                                                                                                                |
+| TBD: `iptables_port`         | string    | `389`         | The ctldap.sh service script will try to read this and setup an iptables NAT rule on interface eth0 from iptables_port to ldap_port if it is set                                                                                                |
+| `ldap_base_dn`               | string    | `churchtools` | LDAP base DN (o=xxx)                                                                                                                                                                                                                            |
+
+## ChurchTools
+
+## Log Level
+
+TBD
+
+## Debug Output
+
+For debugging purposes the debug output of the following functions (!= JS functions but rather scopes) can be individually switched on/ off:
+
+- `getUsersData`
+- `csrfToken`
+- `getCsrfToken`
+- `requestUsers`
+- `apiPost`
+- `apiPostOptions`
+- tbd
 
 # Installation
 Node.js is required to run this software.
