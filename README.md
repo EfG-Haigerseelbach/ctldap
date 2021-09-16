@@ -1,3 +1,5 @@
+[![Coverage Status](https://coveralls.io/repos/github/EfG-Haigerseelbach/ctldap/badge.svg?branch=develop)](https://coveralls.io/github/EfG-Haigerseelbach/ctldap?branch=develop)
+
 # LDAP Wrapper for ChurchTools
 
 ctldap serves as LDAP server for [ChurchTools](https://church.tools) with the purpose to enable ordinary ChurchTools-users to access other services which offer an LDAP-integration (e.g. nextcloud) with the same username and password. Therefore, an LDAP server in form of [ldapjs](http://ldapjs.org/) is used. The relevant LDAP operations are forwarded to a ChurchTools installation using its [API](https://api.church.tools/). User and group data is only cached in ctldap (transient).
